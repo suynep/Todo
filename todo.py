@@ -22,6 +22,7 @@ parser.add_argument('-a', '--add', help="add a todo item to the list", type=str,
 parser.add_argument('-l', '--list', help="list the added todo items", action="store_true")
 parser.add_argument('-d', '--done', help="mark the item in the INDEX as done || check -l for index ||", metavar="INDEX", type=int)
 parser.add_argument('-p', '--progress', help="mark the item in INDEX as 'in-progress'", metavar="INDEX")
+parser.add_argument('-o', '--old', help="view the old todos", action="store_true")
 parser.add_argument('-r', '--remove', help="remove the local todo file", action="store_true")
 
 # create a parser object to simplify future parsing actions
@@ -84,3 +85,12 @@ if args.done != None:
         f.write("DONE: " + removed_line[2:])
 
     print("DONE: ", removed_line)
+
+if args.old:
+    if not os.path.isfile(HISTORY_FILE):
+        print("History file doesn't exists at ", os.path.expanduser("~"))
+    else:
+        with open(HISTORY_FILE, 'r') as f:
+            arr = f.readlines()
+            for ele in arr:
+                print(ele, end='')
